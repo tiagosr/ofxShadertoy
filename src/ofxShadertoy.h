@@ -33,8 +33,7 @@ public:
     virtual void mouseMoved(ofMouseEventArgs&);
     virtual void mouseDragged(ofMouseEventArgs&);
     virtual void setUseMouse(bool);
-    virtual void setAdvanceTime(bool);
-    virtual void setMousePosition(float x, float y);
+    virtual void setAdvanceTime(bool advance) { advanceTime = advance; }
     virtual void draw(float x, float y, float z, float w, float h);
 };
 

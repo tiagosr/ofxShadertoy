@@ -35,10 +35,10 @@ bool ofxShadertoy::load(string shaderfilename, bool chan0cube, bool chan1cube, b
            "uniform float     iSampleRate;\n"
            "uniform vec3      iChannelResolution[4];\n"
            "uniform mat4      tCameraMatrix;\n")+
-    string(chan0cube?"uniform shader2DCube iChannel0;\n":"uniform shader2D  iChannel0;\n")+
-    string(chan1cube?"uniform shader2DCube iChannel1;\n":"uniform shader2D  iChannel1;\n")+
-    string(chan2cube?"uniform shader2DCube iChannel2;\n":"uniform shader2D  iChannel2;\n")+
-    string(chan3cube?"uniform shader2DCube iChannel3;\n":"uniform shader2D  iChannel3;\n")+
+    string(chan0cube?"uniform sampler2DCube iChannel0;\n":"uniform sampler2D  iChannel0;\n")+
+    string(chan1cube?"uniform sampler2DCube iChannel1;\n":"uniform sampler2D  iChannel1;\n")+
+    string(chan2cube?"uniform sampler2DCube iChannel2;\n":"uniform sampler2D  iChannel2;\n")+
+    string(chan3cube?"uniform sampler2DCube iChannel3;\n":"uniform sampler2D  iChannel3;\n")+
     b.getText()+
     string("\nout vec4 FragColor;"
            "void main( void )"
