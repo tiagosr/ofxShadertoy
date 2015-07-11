@@ -1,7 +1,7 @@
 # ofxShadertoy
 
-openFrameworks addon for loading and displaying shaders from the [Shadertoy](https://www.shadertoy.com) page.
-Shadertoy is (c) iq
+openFrameworks addon for loading and displaying shaders from the [Shadertoy](https://www.shadertoy.com) page.  
+Shadertoy is (c) iq  
 This addon is distributed under the terms of the MIT License.
 
 ## Usage
