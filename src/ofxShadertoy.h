@@ -16,7 +16,8 @@ protected:
     ofShader shader;
     ofTexture channel0, channel1, channel2, channel3;
     bool useMouse, advanceTime;
-    ofVec4f mousepos;
+    ofVec2f mousepos;
+    ofVec2f dimensions;
     ofCamera *camera;
     double globalTime;
 public:
@@ -30,11 +31,17 @@ public:
     virtual void begin();
     virtual void end();
     virtual void update(ofEventArgs&);
-    virtual void mouseMoved(ofMouseEventArgs&);
-    virtual void mouseDragged(ofMouseEventArgs&);
     virtual void setUseMouse(bool);
-    virtual void setAdvanceTime(bool advance) { advanceTime = advance; }
+    virtual void setAdvanceTime(bool);
+    virtual void setCamera(ofCamera*);
+    virtual void draw(float x, float y) { draw(x, y, 0, dimensions.x, dimensions.y); }
+    virtual void draw(float x, float y, float w, float h) { draw(x, y, 0, w, h); }
     virtual void draw(float x, float y, float z, float w, float h);
+    virtual float getWidth() { return dimensions.x; }
+    virtual float getHeight() { return dimensions.y; }
+    virtual void setWidth(float w) { dimensions.x = w; }
+    virtual void setHeight(float h) { dimensions.y = h; }
+    virtual void setTexture(int index, const ofTexture& tex);
 };
 
 #endif /* defined(__RayWarper__ofxShadertoy__) */

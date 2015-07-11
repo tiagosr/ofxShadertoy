@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxShadertoy.h"
 #include "ofxFPSControls.h"
 
 class ofApp : public ofBaseApp{
@@ -19,11 +20,8 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
-    ofShader currentShader;
-    ofVec3f mousepos, mousedelta;
-    ofVec3f cameramove;
-    ofVec3f camerapos;
-    ofQuaternion camerarot;
+
+    string shader_filename;
+    ofxShadertoy shadertoy;
     ofxFPSCamera camera;
-    bool b_up, b_down, b_left, b_right;
 };

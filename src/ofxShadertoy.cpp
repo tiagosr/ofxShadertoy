@@ -8,8 +8,12 @@
 
 #include "ofxShadertoy.h"
 
-ofxShadertoy::ofxShadertoy():globalTime(0),advanceTime(true) {}
-ofxShadertoy::~ofxShadertoy() {}
+ofxShadertoy::ofxShadertoy():globalTime(0),advanceTime(true),camera(NULL) {
+    ofAddListener(ofEvents().update, this, &ofxShadertoy::update);
+}
+ofxShadertoy::~ofxShadertoy() {
+    ofRemoveListener(ofEvents().update, this, &ofxShadertoy::update);
+}
 
 bool ofxShadertoy::load(string shaderfilename, bool chan0cube, bool chan1cube, bool chan2cube, bool chan3cube) {
     ofShader currentShader;
@@ -55,8 +59,9 @@ bool ofxShadertoy::load(string shaderfilename, bool chan0cube, bool chan1cube, b
         if(currentShader.linkProgram()) {
             currentShader.bindDefaults();
             currentShader.setUniform1f("iGlobalTime", ofGetElapsedTimef());
-            currentShader.setUniform4f("iMouse", ofGetMouseX(), ofGetMouseY(), ofGetMousePressed()?1:0, 0);
-            currentShader.setUniform3f("iResolution", (float)ofGetWindowWidth(), (float)ofGetWindowHeight(), 4.0f);
+            currentShader.setUniform4f("iMouse", mousepos.x, mousepos.y, ofGetMousePressed()?1:0, 0);
+            dimensions.set(ofGetWindowWidth(), ofGetWindowHeight());
+            currentShader.setUniform3f("iResolution", dimensions.x, dimensions.y, 4.0f);
             currentShader.setUniform4f("iDate", ofGetYear(), ofGetMonth(), ofGetDay(), ((ofGetHours()*60+ofGetMinutes())*60)+ofGetSeconds());
             currentShader.setUniformMatrix4f("tCameraMatrix", ofMatrix4x4::newIdentityMatrix());
             shader = currentShader;
@@ -71,10 +76,16 @@ bool ofxShadertoy::load(string shaderfilename, bool chan0cube, bool chan1cube, b
 void ofxShadertoy::begin() {
     shader.begin();
     shader.setUniform1f("iGlobalTime", globalTime);
-    shader.setUniform4f("iMouse", ofGetMouseX(), ofGetMouseY(), ofGetMousePressed()?1:0, 0);
-    shader.setUniform3f("iResolution", (float)ofGetWindowWidth(), (float)ofGetWindowHeight(), 4.0f);
+    shader.setUniform4f("iMouse", mousepos.x, mousepos.y, ofGetMousePressed()?1:0, 0);
+    shader.setUniform3f("iResolution", dimensions.x, dimensions.y, 4.0f);
     shader.setUniform4f("iDate", ofGetYear(), ofGetMonth(), ofGetDay(), ((ofGetHours()*60+ofGetMinutes())*60)+ofGetSeconds());
-    shader.setUniformMatrix4f("tCameraMatrix", ofMatrix4x4::newIdentityMatrix());
+    if(camera) {
+        ofMatrix4x4 cmtx(camera->getOrientationQuat());
+        cmtx.setTranslation(-camera->getPosition());
+        shader.setUniformMatrix4f("tCameraMatrix", cmtx);
+    } else {
+        shader.setUniformMatrix4f("tCameraMatrix", ofMatrix4x4::newIdentityMatrix());
+    }
     shader.setUniformTexture("iChannel0", channel0, 0);
     shader.setUniformTexture("iChannel1", channel1, 1);
     shader.setUniformTexture("iChannel2", channel2, 0);
@@ -86,6 +97,8 @@ void ofxShadertoy::end() {
 }
 
 void ofxShadertoy::draw(float x, float y, float z, float w, float h) {
+    dimensions.x = w;
+    dimensions.y = h;
     begin();
     ofRect(x, y, z, w, h);
     end();
@@ -94,5 +107,37 @@ void ofxShadertoy::draw(float x, float y, float z, float w, float h) {
 void ofxShadertoy::update(ofEventArgs &event) {
     if(advanceTime) {
         globalTime += ofGetLastFrameTime();
+    }
+    if(useMouse && ofGetMousePressed()) {
+        mousepos.set(ofGetMouseX(), ofGetMouseY());
+    }
+}
+
+void ofxShadertoy::setAdvanceTime(bool advance) {
+    advanceTime = advance;
+}
+
+void ofxShadertoy::setUseMouse(bool use) {
+    useMouse = use;
+}
+
+void ofxShadertoy::setCamera(ofCamera* cam) {
+    camera = cam;
+}
+
+void ofxShadertoy::setTexture(int index, const ofTexture& tex) {
+    switch (index) {
+        case 0:
+            channel0 = tex;
+            break;
+        case 1:
+            channel1 = tex;
+            break;
+        case 2:
+            channel2 = tex;
+            break;
+        case 3:
+            channel3 = tex;
+            break;
     }
 }
