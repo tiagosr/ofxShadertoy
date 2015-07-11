@@ -9,6 +9,10 @@
 #include "ofxShadertoy.h"
 
 ofxShadertoy::ofxShadertoy():globalTime(0),advanceTime(true),camera(NULL) {
+    channel0.allocate(1, 1, GL_RGBA);
+    channel1.allocate(1, 1, GL_RGBA);
+    channel2.allocate(1, 1, GL_RGBA);
+    channel3.allocate(1, 1, GL_RGBA);
     ofAddListener(ofEvents().update, this, &ofxShadertoy::update);
 }
 ofxShadertoy::~ofxShadertoy() {
