@@ -1,6 +1,6 @@
 # ofxShadertoy
 
-![ofxaddons](https://raw.github.com/tiagosr/ofxShadertoy/blob/master/ofxaddons_thumbnail.png)
+![ofxaddons](https://raw.githubusercontent.com/tiagosr/ofxShadertoy/master/ofxaddons_thumbnail.png)
 
 openFrameworks addon for loading and displaying shaders from the [Shadertoy](https://www.shadertoy.com) page.  
 Shadertoy is (c) iq  
