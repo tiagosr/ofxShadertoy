@@ -8,7 +8,7 @@
 
 #include "ofxShadertoy.h"
 
-ofxShadertoy::ofxShadertoy():globalTime(0),advanceTime(true),camera(NULL) {
+ofxShadertoy::ofxShadertoy():globalTime(0),advanceTime(true),camera(NULL),dimensions(640.f, 480.f) {
     channel0.allocate(1, 1, GL_RGBA);
     channel1.allocate(1, 1, GL_RGBA);
     channel2.allocate(1, 1, GL_RGBA);
@@ -77,7 +77,7 @@ bool ofxShadertoy::load(string shaderfilename, bool chan0cube, bool chan1cube, b
     }
 }
 
-void ofxShadertoy::begin() {
+void ofxShadertoy::begin() const {
     shader.begin();
     shader.setUniform1f("iGlobalTime", globalTime);
     shader.setUniform4f("iMouse", mousepos.x, mousepos.y, ofGetMousePressed()?1:0, 0);
@@ -96,13 +96,11 @@ void ofxShadertoy::begin() {
     shader.setUniformTexture("iChannel3", channel3, 1);
 }
 
-void ofxShadertoy::end() {
+void ofxShadertoy::end() const {
     shader.end();
 }
 
-void ofxShadertoy::draw(float x, float y, float z, float w, float h) {
-    dimensions.x = w;
-    dimensions.y = h;
+void ofxShadertoy::draw(float x, float y, float z, float w, float h) const {
     begin();
     ofRect(x, y, z, w, h);
     end();

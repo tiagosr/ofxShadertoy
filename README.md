@@ -18,7 +18,7 @@ This addon is distributed under the terms of the MIT License.
    ```c++
    ofxShadertoy shadertoy;
    ...
-   shadertoy.load("shadertoy/raymarch.frag");
+   shadertoy.load("shaders/raymarch.frag");
    ```
 
 3. Set up textures if needed by the shader
