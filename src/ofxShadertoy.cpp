@@ -35,6 +35,9 @@ bool ofxShadertoy::load(string shaderfilename, bool chan0cube, bool chan1cube, b
     string fragprogram =
     string("#version 330\n"
            "precision mediump float;\n"
+           //"vec4 texture2D(sampler2DRect tex, vec2 coords) { return texture(tex, coords*512.0+vec2(512,-512)); }\n"
+           "vec4 texture2D(sampler2D tex, vec2 coords) { return texture(tex, coords.xy); }\n"
+           "#define texture2DCube texture\n"
            "uniform vec3      iResolution;\n"
            "uniform float     iGlobalTime;\n"
            "uniform float     iChannelTime[4];\n"
@@ -90,10 +93,13 @@ void ofxShadertoy::begin() const {
     } else {
         shader.setUniformMatrix4f("tCameraMatrix", ofMatrix4x4::newIdentityMatrix());
     }
-    shader.setUniformTexture("iChannel0", channel0, 0);
-    shader.setUniformTexture("iChannel1", channel1, 1);
-    shader.setUniformTexture("iChannel2", channel2, 0);
-    shader.setUniformTexture("iChannel3", channel3, 1);
+    if(channel0.isAllocated()) {
+        channel0.bind();
+        shader.setUniformTexture("iChannel0", channel0, 1);
+    }
+    shader.setUniformTexture("iChannel1", channel1, 2);
+    shader.setUniformTexture("iChannel2", channel2, 3);
+    shader.setUniformTexture("iChannel3", channel3, 4);
 }
 
 void ofxShadertoy::end() const {
