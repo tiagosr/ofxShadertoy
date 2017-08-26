@@ -9,9 +9,13 @@ This addon is distributed under the terms of the MIT License.
 ## Usage
 
 1. Set up your project to use the programmable shader.
-   in the `int main(...)` function, before setting up openGL or the app, use:
+   in the `int main(...)` function, set your window to use OpenGL 3.2 or greater:
    ```c++
-   ofSetCurrentRenderer(ofGLProgrammableRenderer::TYPE);
+   ofGLWindowSettings settings;
+   settings.setGLVersion(3, 2);    // <--- ofxShadertoy NEEDS the GL Programmable Renderer
+   settings.width = 1024;
+   settings.height = 768;
+   ofCreateWindow(settings);       // <-------- setup the GL context
    ```
 
 2. Set up the ofxShadertoy to load a file with the shadertoy glsl code
