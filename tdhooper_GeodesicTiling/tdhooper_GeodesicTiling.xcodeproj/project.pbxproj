@@ -9,7 +9,7 @@
 		<string>46</string>
 		<key>objects</key>
 		<dict>
-			<key>6047F6E6852B78D9365C6601</key>
+			<key>44B69661E6F31B5745084434</key>
 			<dict>
 				<key>explicitFileType</key>
 				<string>sourcecode.c.h</string>
@@ -18,20 +18,47 @@
 				<key>isa</key>
 				<string>PBXFileReference</string>
 				<key>name</key>
-				<string>src\ofxShadertoy.h</string>
+				<string>ofxShadertoy.h</string>
 				<key>path</key>
-				<string>../../../addons\ofxShadertoy/src\ofxShadertoy.h</string>
+				<string>../../../addons/ofxShadertoy/src/ofxShadertoy.h</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
-			<key>E985C3BCC559F687D54C856C</key>
+			<key>0DE92194897806F0D58A01C7</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>16B7250F8DD49D0209DFEF3C</string>
+					<string>44B69661E6F31B5745084434</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>src</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>8F679A181EC60143ED220F0B</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>0DE92194897806F0D58A01C7</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>ofxShadertoy</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>CDBCEBF4EEAB5E2F6F1E23FD</key>
 			<dict>
 				<key>fileRef</key>
-				<string>589CFB12F193DC822B53ACB2</string>
+				<string>16B7250F8DD49D0209DFEF3C</string>
 				<key>isa</key>
 				<string>PBXBuildFile</string>
 			</dict>
-			<key>589CFB12F193DC822B53ACB2</key>
+			<key>16B7250F8DD49D0209DFEF3C</key>
 			<dict>
 				<key>explicitFileType</key>
 				<string>sourcecode.cpp.cpp</string>
@@ -40,9 +67,9 @@
 				<key>isa</key>
 				<string>PBXFileReference</string>
 				<key>name</key>
-				<string>src\ofxShadertoy.cpp</string>
+				<string>ofxShadertoy.cpp</string>
 				<key>path</key>
-				<string>../../../addons\ofxShadertoy/src\ofxShadertoy.cpp</string>
+				<string>../../../addons/ofxShadertoy/src/ofxShadertoy.cpp</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
@@ -60,7 +87,9 @@
 			<key>BB4B014C10F69532006C3DED</key>
 			<dict>
 				<key>children</key>
-				<array />
+				<array>
+					<string>8F679A181EC60143ED220F0B</string>
+				</array>
 				<key>isa</key>
 				<string>PBXGroup</string>
 				<key>name</key>
@@ -213,7 +242,8 @@
 					<key>HEADER_SEARCH_PATHS</key>
 					<array>
 						<string>$(OF_CORE_HEADERS)</string>
-						<string>../../../addons\ofxShadertoy/src</string>
+						<string>src</string>
+						<string>../../../addons/ofxShadertoy/src</string>
 					</array>
 					<key>CONFIGURATION_BUILD_DIR</key>
 					<string>$(SRCROOT)/bin/</string>
@@ -271,7 +301,8 @@
 					<key>HEADER_SEARCH_PATHS</key>
 					<array>
 						<string>$(OF_CORE_HEADERS)</string>
-						<string>../../../addons\ofxShadertoy/src</string>
+						<string>src</string>
+						<string>../../../addons/ofxShadertoy/src</string>
 					</array>
 					<key>CONFIGURATION_BUILD_DIR</key>
 					<string>$(SRCROOT)/bin/</string>
@@ -328,7 +359,7 @@
 				<array>
 					<string>E4B69E200A3A1BDC003C02F2</string>
 					<string>E4B69E210A3A1BDC003C02F2</string>
-					<string>E985C3BCC559F687D54C856C</string>
+					<string>CDBCEBF4EEAB5E2F6F1E23FD</string>
 				</array>
 				<key>isa</key>
 				<string>PBXSourcesBuildPhase</string>
@@ -412,7 +443,8 @@
 					<key>HEADER_SEARCH_PATHS</key>
 					<array>
 						<string>$(OF_CORE_HEADERS)</string>
-						<string>../../../addons\ofxShadertoy/src</string>
+						<string>src</string>
+						<string>../../../addons/ofxShadertoy/src</string>
 					</array>
 					<key>COMBINE_HIDPI_IMAGES</key>
 					<string>YES</string>
@@ -460,7 +492,8 @@
 					<key>HEADER_SEARCH_PATHS</key>
 					<array>
 						<string>$(OF_CORE_HEADERS)</string>
-						<string>../../../addons\ofxShadertoy/src</string>
+						<string>src</string>
+						<string>../../../addons/ofxShadertoy/src</string>
 					</array>
 					<key>COMBINE_HIDPI_IMAGES</key>
 					<string>YES</string>

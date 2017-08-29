@@ -111,7 +111,7 @@ void ofxShadertoy::end() const {
 
 void ofxShadertoy::draw(float x, float y, float z, float w, float h) const {
     begin();
-    ofRect(x, y, z, w, h);
+    ofDrawRectangle(x, y, z, w, h);
     end();
 }
 
