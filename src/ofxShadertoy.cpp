@@ -40,6 +40,8 @@ bool ofxShadertoy::load(string shaderfilename, bool chan0cube, bool chan1cube, b
            "#define texture2DCube texture\n"
            "uniform vec3      iResolution;\n"
            "uniform float     iGlobalTime;\n"
+           "uniform float     iTime;\n"
+           "uniform int       iFrame;\n"
            "uniform float     iChannelTime[4];\n"
            "uniform vec4      iMouse;\n"
            "uniform vec4      iDate;\n"
@@ -83,6 +85,7 @@ bool ofxShadertoy::load(string shaderfilename, bool chan0cube, bool chan1cube, b
 void ofxShadertoy::begin() const {
     shader.begin();
     shader.setUniform1f("iGlobalTime", globalTime);
+    shader.setUniform1f("iTime", globalTime);
     shader.setUniform4f("iMouse", mousepos.x, mousepos.y, ofGetMousePressed()?1:0, 0);
     shader.setUniform3f("iResolution", dimensions.x, dimensions.y, 4.0f);
     shader.setUniform4f("iDate", ofGetYear(), ofGetMonth(), ofGetDay(), ((ofGetHours()*60+ofGetMinutes())*60)+ofGetSeconds());
