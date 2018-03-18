@@ -33,21 +33,22 @@ bool ofxShadertoy::load(string shaderfilename, bool chan0cube, bool chan1cube, b
     f.open(shaderfilename);
     ofBuffer b = f.readToBuffer();
     string fragprogram =
-    string("#version 330\n"
-           "precision mediump float;\n"
-           //"vec4 texture2D(sampler2DRect tex, vec2 coords) { return texture(tex, coords*512.0+vec2(512,-512)); }\n"
-           "vec4 texture2D(sampler2D tex, vec2 coords) { return texture(tex, coords.xy); }\n"
-           "#define texture2DCube texture\n"
-           "uniform vec3      iResolution;\n"
-           "uniform float     iGlobalTime;\n"
-           "uniform float     iTime;\n"
-           "uniform int       iFrame;\n"
-           "uniform float     iChannelTime[4];\n"
-           "uniform vec4      iMouse;\n"
-           "uniform vec4      iDate;\n"
-           "uniform float     iSampleRate;\n"
-           "uniform vec3      iChannelResolution[4];\n"
-           "uniform mat4      tCameraMatrix;\n")+
+        string(
+            "#version 330\n"
+            "precision mediump float;\n"
+            "vec4 texture2D(sampler2D tex, vec2 coords) { return texture(tex, coords.xy); }\n"
+            //"vec4 texture2DCube(sampler2DCube tex, vec2 coords) { return texture(tex, coords); }\n"
+            "#define texture   texture2D\n"
+            "uniform vec3      iResolution;\n"
+            "uniform float     iGlobalTime;\n"
+            "uniform float     iTime;\n"
+            "uniform int       iFrame;\n"
+            "uniform float     iChannelTime[4];\n"
+            "uniform vec4      iMouse;\n"
+            "uniform vec4      iDate;\n"
+            "uniform float     iSampleRate;\n"
+            "uniform vec3      iChannelResolution[4];\n"
+            "uniform mat4      tCameraMatrix;\n")+
     string(chan0cube?"uniform sampler2DCube iChannel0;\n":"uniform sampler2D  iChannel0;\n")+
     string(chan1cube?"uniform sampler2DCube iChannel1;\n":"uniform sampler2D  iChannel1;\n")+
     string(chan2cube?"uniform sampler2DCube iChannel2;\n":"uniform sampler2D  iChannel2;\n")+
@@ -152,3 +153,169 @@ void ofxShadertoy::setTexture(int index, const ofTexture& tex) {
             break;
     }
 }
+
+void ofxShadertoy::setTexture(int index, ofFbo const & tex) {
+    switch (index) {
+    case 0:
+        channel0 = tex.getTextureReference(0);
+        break;
+    case 1:
+        channel1 = tex.getTextureReference(0);
+        break;
+    case 2:
+        channel2 = tex.getTextureReference(0);
+        break;
+    case 3:
+        channel3 = tex.getTextureReference(0);
+        break;
+    }
+}
+
+ofTexture ofxShadertoy::createGrayNoise(size_t size) {
+    ofTexture tex;
+    ofFloatPixels noisePixels;
+    noisePixels.allocate(size, size, ofImageType::OF_IMAGE_GRAYSCALE);
+    for (int y = 0; y < size; y++) {
+        for (int x = 0; x < size; x++) {
+            noisePixels[(x + size * y)] = ofNoise(x, y);
+        }
+    }
+    tex.allocate(noisePixels);
+    return tex;
+}
+
+ofTexture ofxShadertoy::createGrayNoiseSmall() {
+    return createGrayNoise(64);
+}
+
+ofTexture ofxShadertoy::createGrayNoiseMedium() {
+    return createGrayNoise(256);
+}
+
+ofTexture ofxShadertoy::createGrayNoiseLarge() {
+    return createGrayNoise(1024);
+}
+
+ofTexture ofxShadertoy::createRGBANoise(size_t size) {
+    ofTexture tex;
+    ofFloatPixels noisePixels;
+    noisePixels.allocate(size, size, ofImageType::OF_IMAGE_COLOR_ALPHA);
+    for (int y = 0; y < size; y++) {
+        for (int x = 0; x < size; x++) {
+            noisePixels[(x + size * y) * 4    ] = ofNoise(x, y);
+            noisePixels[(x + size * y) * 4 + 1] = ofNoise(x+size, y);
+            noisePixels[(x + size * y) * 4 + 2] = ofNoise(x, y+size);
+            noisePixels[(x + size * y) * 4 + 3] = ofNoise(x+size, y+size);
+        }
+    }
+    tex.allocate(noisePixels);
+    return tex;
+}
+
+ofTexture ofxShadertoy::createRGBANoiseSmall() {
+    return createRGBANoise(64);
+}
+
+ofTexture ofxShadertoy::createRGBANoiseMedium() {
+    return createRGBANoise(256);
+}
+
+ofTexture ofxShadertoy::createRGBANoiseLarge() {
+    return createRGBANoise(1024);
+}
+
+void ofxShadertoy::setUniform1i(std::string const & uniformName, int value) const {
+    shader.setUniform1i(uniformName, value);
+}
+
+void ofxShadertoy::setUniform2i(std::string const & uniformName, int v1, int v2) const {
+    shader.setUniform2i(uniformName, v1, v2);
+}
+
+void ofxShadertoy::setUniform3i(std::string const & uniformName, int v1, int v2, int v3) const {
+    shader.setUniform3i(uniformName, v1, v2, v3);
+}
+
+void ofxShadertoy::setUniform4i(std::string const & uniformName, int v1, int v2, int v3, int v4) const {
+    shader.setUniform4i(uniformName, v1, v2, v3, v4);
+}
+
+void ofxShadertoy::setUniform1f(std::string const & uniformName, float value) const {
+    shader.setUniform1f(uniformName, value);
+}
+
+void ofxShadertoy::setUniform2f(std::string const & uniformName, float v1, float v2) const {
+    shader.setUniform2f(uniformName, v1, v2);
+}
+
+void ofxShadertoy::setUniform2f(std::string const & uniformName, ofVec2f const & value) const {
+    shader.setUniform2f(uniformName, value);
+}
+
+void ofxShadertoy::setUniform3f(std::string const & uniformName, float v1, float v2, float v3) const {
+    shader.setUniform3f(uniformName, v1, v2, v3);
+}
+
+void ofxShadertoy::setUniform3f(std::string const & uniformName, ofVec3f const & value) const {
+    shader.setUniform3f(uniformName, value);
+}
+
+void ofxShadertoy::setUniform4f(std::string const & uniformName, float v1, float v2, float v3, float v4) const {
+    shader.setUniform4f(uniformName, v1, v2, v3, v4);
+}
+
+void ofxShadertoy::setUniform4f(std::string const & uniformName, ofVec4f const & value) const {
+    shader.setUniform4f(uniformName, value);
+}
+
+void ofxShadertoy::setUniform4f(std::string const & uniformName, ofFloatColor const & value) const {
+    shader.setUniform4f(uniformName, value);
+}
+
+void ofxShadertoy::setUniform1iv(std::string const & uniformName, int const * v, size_t count) const {
+    shader.setUniform1iv(uniformName, v, count);
+}
+
+void ofxShadertoy::setUniform2iv(std::string const & uniformName, int const * v, size_t count) const {
+    shader.setUniform2iv(uniformName, v, count);
+}
+
+void ofxShadertoy::setUniform3iv(std::string const & uniformName, int const * v, size_t count) const {
+    shader.setUniform3iv(uniformName, v, count);
+}
+
+void ofxShadertoy::setUniform4iv(std::string const & uniformName, int const * v, size_t count) const {
+    shader.setUniform4iv(uniformName, v, count);
+}
+
+void ofxShadertoy::setUniform1fv(std::string const & uniformName, float const * v, size_t count) const {
+    shader.setUniform1fv(uniformName, v, count);
+}
+
+void ofxShadertoy::setUniform2fv(std::string const & uniformName, float const * v, size_t count) const {
+    shader.setUniform2fv(uniformName, v, count);
+}
+
+void ofxShadertoy::setUniform3fv(std::string const & uniformName, float const * v, size_t count) const {
+    shader.setUniform3fv(uniformName, v, count);
+}
+
+void ofxShadertoy::setUniform4fv(std::string const & uniformName, float const * v, size_t count) const {
+    shader.setUniform4fv(uniformName, v, count);
+}
+
+void ofxShadertoy::setUniforms(ofParameterGroup const & parameters) const {
+    shader.setUniforms(parameters);
+}
+
+void ofxShadertoy::setUniformMatrix3f(std::string const & uniformName, ofMatrix3x3 const & matrix) const {
+    shader.setUniformMatrix3f(uniformName, matrix);
+}
+
+void ofxShadertoy::setUniformMatrix4f(std::string const & uniformName, ofMatrix4x4 const & matrix) const {
+    shader.setUniformMatrix4f(uniformName, matrix);
+}
+
+
+
+
