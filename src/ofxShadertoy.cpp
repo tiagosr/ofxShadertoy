@@ -157,16 +157,16 @@ void ofxShadertoy::setTexture(int index, const ofTexture& tex) {
 void ofxShadertoy::setTexture(int index, ofFbo const & tex) {
     switch (index) {
     case 0:
-        channel0 = tex.getTextureReference(0);
+        channel0 = tex.getTexture(0);
         break;
     case 1:
-        channel1 = tex.getTextureReference(0);
+        channel1 = tex.getTexture(0);
         break;
     case 2:
-        channel2 = tex.getTextureReference(0);
+        channel2 = tex.getTexture(0);
         break;
     case 3:
-        channel3 = tex.getTextureReference(0);
+        channel3 = tex.getTexture(0);
         break;
     }
 }
